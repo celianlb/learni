@@ -3,7 +3,7 @@ import CategoryCard from "./card-category";
 export default function AllCategory({ categories }: CategoryProps) {
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 px-1">
-      {categories.slice(0, 6).map((category, index) => (
+      {categories.slice(0, 9).map((category, index) => (
         <CategoryCard
           key={category.id}
           link={`/formations/category/${category.slug}`}

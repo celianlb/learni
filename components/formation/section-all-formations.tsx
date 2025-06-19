@@ -53,10 +53,10 @@ export default async function SectionAllFormations() {
                         </div>
                       ))}
                   </div>
-                  <div className="flex items-center justify-end gap-2 group w-full">
+                  <div className="flex items-center justify-end gap-2 group w-fit ml-auto">
                     <Link
-                      href={"/formations/tous-les-domaines"}
-                      className="font-archivo text-[18px] font-light  group-hover:text-gray-400 transition-all duration-300"
+                      href={`/formations/recherche?category=${category.slug}`}
+                      className="font-work-sans text-[16px] tracking-[-1px]  text-custom-blue-900 group-hover:text-gray-400 transition-all duration-300"
                     >
                       Voir tout
                     </Link>

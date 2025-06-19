@@ -6,8 +6,9 @@ import { partners } from "@/data/partners";
 import SearchBar from "./searchbar";
 export default function Hero() {
   return (
-    <section className="min-h-[calc(100vh-5rem)] md:min-h-[calc(100vh-6rem)] justify-center items-center bg-white rounded-b-3xl lg:rounded-b-[42px] relative overflow-hidden flex flex-col">
-      <div className="flex-1 flex flex-col items-center justify-center gap-10">
+    <section className="relative min-h-[calc(100vh-5rem)] md:min-h-[calc(100vh-6rem)] justify-center items-center rounded-b-3xl lg:rounded-b-[42px] flex flex-col">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-200/10 via-blue-400/10 to-blue-200/10 blur-3xl -z-10" />
+      <div className="relative flex-1 flex flex-col items-center justify-center gap-10">
         <h1 className="flex tracking-[-3px] flex-col items-center font-manrope text-[48px] font-bold justify-center text-center">
           Trouver votre formation
           <br />

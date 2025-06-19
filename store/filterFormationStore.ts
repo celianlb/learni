@@ -15,6 +15,7 @@ interface FilterFormationStore {
   setEditing: (filters: Partial<Filters>) => void;
   applyFilters: () => void;
   resetFilters: () => void;
+  clearAllFilters: () => void;
 }
 
 const defaultFilters: Filters = {
@@ -38,6 +39,11 @@ export const useFilterFormationStore = create<FilterFormationStore>((set) => ({
       appliedFilters: { ...state.editingFilters },
     })),
   resetFilters: () =>
+    set(() => ({
+      editingFilters: { ...defaultFilters },
+      appliedFilters: { ...defaultFilters },
+    })),
+  clearAllFilters: () =>
     set(() => ({
       editingFilters: { ...defaultFilters },
       appliedFilters: { ...defaultFilters },

@@ -1,6 +1,6 @@
 "use client";
 import Input from "@/components/UI/Input/Input";
-import { useFilterFormationStore } from "@/store/filterFormationStore";
+import { Filters, useFilterFormationStore } from "@/store/filterFormationStore";
 import {
   AcademicCapIcon,
   ClockIcon,
@@ -19,6 +19,8 @@ type FilterFormationProps = {
   initialLevels?: string[];
   initialDurations?: string[];
   initialFormats?: string[];
+  initialSelectedCategory?: string;
+  initialSelectedTag?: string;
 };
 
 const FilterFormation: React.FC<FilterFormationProps> = ({
@@ -27,8 +29,10 @@ const FilterFormation: React.FC<FilterFormationProps> = ({
   initialLevels = [],
   initialDurations = [],
   initialFormats = [],
+  initialSelectedCategory,
+  initialSelectedTag,
 }) => {
-  const { editingFilters, setEditing, applyFilters } =
+  const { editingFilters, setEditing, applyFilters, resetFilters } =
     useFilterFormationStore();
   const [categories, setCategories] = useState<Category[]>(initialCategories);
   const [tags, setTags] = useState<Tag[]>(initialTags);
@@ -53,6 +57,57 @@ const FilterFormation: React.FC<FilterFormationProps> = ({
   const [isLevelDropdownOpen, setIsLevelDropdownOpen] = useState(false);
   const [levelSearch, setLevelSearch] = useState("");
   const levelDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Pré-sélectionner les filtres basés sur les paramètres URL
+  useEffect(() => {
+    // Réinitialiser d'abord tous les filtres
+    resetFilters();
+
+    // Si aucun paramètre n'est fourni, on garde les filtres réinitialisés
+    if (!initialSelectedCategory && !initialSelectedTag) {
+      return;
+    }
+
+    // Préparer les nouveaux filtres
+    const newFilters: Partial<Filters> = {};
+
+    // Gérer la catégorie
+    if (initialSelectedCategory) {
+      // Vérifier d'abord si c'est déjà un slug
+      const categoryBySlug = categories.find(
+        (cat) => cat.slug === initialSelectedCategory
+      );
+      if (categoryBySlug) {
+        newFilters.categories = [categoryBySlug.slug];
+      } else {
+        // Sinon, chercher par nom (pour la compatibilité)
+        const categoryByName = categories.find(
+          (cat) => cat.name === initialSelectedCategory
+        );
+        if (categoryByName) {
+          newFilters.categories = [categoryByName.slug];
+        }
+      }
+    }
+
+    // Gérer le tag
+    if (initialSelectedTag) {
+      newFilters.tags = [initialSelectedTag];
+    }
+
+    // Appliquer les nouveaux filtres
+    if (Object.keys(newFilters).length > 0) {
+      setEditing(newFilters);
+      applyFilters();
+    }
+  }, [
+    initialSelectedCategory,
+    initialSelectedTag,
+    setEditing,
+    categories,
+    resetFilters,
+    applyFilters,
+  ]);
 
   useEffect(() => {
     // Si les données initiales sont fournies, les utiliser
@@ -134,11 +189,11 @@ const FilterFormation: React.FC<FilterFormationProps> = ({
   ]);
 
   // Gestion catégories (boutons)
-  const handleCategoryClick = (catName: string) => {
+  const handleCategoryClick = (catSlug: string) => {
     setEditing({
-      categories: editingFilters.categories.includes(catName)
-        ? editingFilters.categories.filter((c) => c !== catName)
-        : [...editingFilters.categories, catName],
+      categories: editingFilters.categories.includes(catSlug)
+        ? editingFilters.categories.filter((c) => c !== catSlug)
+        : [...editingFilters.categories, catSlug],
     });
     applyFilters();
   };
@@ -290,7 +345,7 @@ const FilterFormation: React.FC<FilterFormationProps> = ({
             <div className="flex flex-wrap gap-2 max-h-[300px] overflow-y-auto">
               {filteredCategories.map((category) => {
                 const selected = editingFilters.categories.includes(
-                  category.name
+                  category.slug
                 );
                 return (
                   <button
@@ -302,7 +357,7 @@ const FilterFormation: React.FC<FilterFormationProps> = ({
                           ? "bg-custom-blue-900 text-white border-custom-blue-900"
                           : "bg-gray-100 text-custom-blue-900 border-gray-300"
                       }`}
-                    onClick={() => handleCategoryClick(category.name)}
+                    onClick={() => handleCategoryClick(category.slug)}
                   >
                     {capitalize(category.name)}
                   </button>

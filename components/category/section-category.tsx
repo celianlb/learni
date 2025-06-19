@@ -18,20 +18,13 @@ export default async function CategorySection() {
   }));
 
   return (
-    <section className="relative overflow-hidden">
-      <Image
-        width={1500}
-        height={1500}
-        src={"/svg/dot-circle.svg"}
-        alt="logo"
-        className="object-cover absolute w-full h-full bottom-96 left-0 opacity-30"
-      />
+    <section className="relative flex flex-col gap-10 mt-24">
       <h2 className="text-white">Les domaines d&apos;interventions</h2>
       <AllCategory categories={formattedCategories} />
-      <div className="flex items-center justify-end gap-2 group w-full">
+      <div className="flex items-center justify-end gap-2 group w-fit ml-auto">
         <Link
           href={"/formations/tous-les-domaines"}
-          className="font-archivo text-[18px] font-light text-white group-hover:text-gray-400 transition-all duration-300"
+          className="font-work-sans text-[16px] tracking-[-1px]  text-custom-blue-900 group-hover:text-gray-400 transition-all duration-300"
         >
           Voir tous les domaines d&apos;interventions
         </Link>

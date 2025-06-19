@@ -40,7 +40,7 @@ export default function SearchResultsClient({
     // Filtre catégories
     if (appliedFilters.categories.length > 0) {
       filtered = filtered.filter(
-        (f) => f.category && appliedFilters.categories.includes(f.category.name)
+        (f) => f.category && appliedFilters.categories.includes(f.category.slug)
       );
     }
 
@@ -93,7 +93,9 @@ export default function SearchResultsClient({
     <div className="lg:col-span-3">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
         <h1 className="text-2xl font-semibold">
-          {query ? `Résultats pour "${query}"` : "Toutes les formations"}
+          {query && query.trim() !== ""
+            ? `Résultats pour "${query}"`
+            : "Toutes les formations"}
         </h1>
         {filteredResults.length !== initialResults.length && (
           <span className="text-sm text-gray-600">

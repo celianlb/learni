@@ -11,11 +11,11 @@ export default function CardCategory({
   const cardContent = (
     <div
       className={cn(
-        "card",
-        "card-border-gradient",
-        backgroundType === "radial" && "bg-custom-blue-700 hover:bg-blue-900",
-        backgroundType === "white" && "bg-white hover:bg-blue-50",
-        "p-8 shadow-lg flex flex-col gap-10 group transition-all duration-300",
+        backgroundType === "radial" &&
+          "bg-custom-blue-700 hover:bg-custom-blue-900/80 border-custom-blue-600 hover:border-custom-blue-700",
+        backgroundType === "white" &&
+          "bg-white hover:bg-blue-50 border-custom-blue-800",
+        "p-6 shadow-lg rounded-2xl border  flex flex-col gap-10 group transition-all duration-300",
         className
       )}
     >
@@ -27,7 +27,7 @@ export default function CardCategory({
     return (
       <Link
         href={link}
-        className="block font-work-sans tracking-tight font-medium w-full h-full"
+        className="block font-work-sans tracking-[-1px] font-medium w-full h-full"
       >
         {cardContent}
       </Link>

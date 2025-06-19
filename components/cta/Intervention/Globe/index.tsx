@@ -27,9 +27,7 @@ export function GlobeDemo({
           <p className="font-manrope text-[16px] leading-6 text-custom-blue-900 opacity-80">
             {description}
           </p>
-          <Button variant="secondary" href="/contact">
-            {buttonText}
-          </Button>
+          <Button href="/contact">{buttonText}</Button>
         </div>
         <div className="absolute w-full bottom-0 inset-x-0 h-40 bg-gradient-to-b pointer-events-none select-none from-transparent  to-white z-40" />
         <div className="absolute w-full left-0 -bottom-20 md:-bottom-40 h-72 md:h-full -z-10">

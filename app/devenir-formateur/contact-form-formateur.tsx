@@ -33,12 +33,6 @@ export default function ContactFormFormateur() {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label
-            htmlFor="cv-upload"
-            className="text-white font-work-sans text-[14px] font-medium"
-          >
-            CV (PDF)
-          </label>
           <div className="relative">
             <input
               id="cv-upload"
@@ -48,7 +42,7 @@ export default function ContactFormFormateur() {
               required
             />
             <div className="bg-white/90 font-work-sans text-[16px] font-normal tracking-[-1px] backdrop-blur-sm border border-gray-200 hover:border-gray-300 transition-all duration-200 ease-in-out w-full py-3 px-4 rounded-lg text-gray-900 shadow-sm flex items-center justify-between">
-              <span className="text-gray-500">Sélectionner un fichier PDF</span>
+              <span className="text-gray-500">CV (PDF)</span>
               <button
                 type="button"
                 className="bg-white hover:bg-gray-100 font-work-sans text-[16px] font-normal tracking-[-1px] border border-gray-400 text-custom-blue-900 py-2 px-4 rounded-md transition-colors duration-200"

@@ -57,33 +57,37 @@ export default function FormationCard({
         >
           {formation.titre}
         </h3>
-        <div className="flex flex-wrap gap-2 transition-all duration-300 ease-in-out group-hover:-translate-x-[150%]">
+        <div className="flex relative flex-wrap gap-2 transition-all duration-300 ease-in-out group-hover:-translate-x-[150%]">
+          <div className="w-96 h-80 absolute top-0 left-0 bg-custom-blue-600/20 rounded-full blur-2xl opacity-30 z-0" />
           <FormationTag
             icon="/svg/formation-card/person.svg"
             alt="niveau"
             text={formation.niveau}
-            className="capitalize"
+            className="capitalize relative z-10"
           />
           <FormationTag
             icon="/svg/formation-card/price.svg"
             alt="prix"
             text={formatPrice(formation.tarifIndividuel)}
+            className="relative z-10"
           />
           <FormationTag
             icon="/svg/formation-card/duration.svg"
             alt="durée"
             text={formatDuration(formation.duree)}
+            className="relative z-10"
           />
           <FormationTag
             icon="/svg/formation-card/desktop.svg"
             alt="format"
             text={formation.format}
-            className="capitalize"
+            className="capitalize relative z-10"
           />
           <FormationTag
             icon="/svg/formation-card/person.svg"
             alt="participants"
             text={formatPeople(formation.participantsMax)}
+            className="relative z-10"
           />
         </div>
         <div

@@ -2,26 +2,27 @@ import { Metadata } from "next";
 import SearchResultsContent from "./SearchResultsContent";
 
 interface PageProps {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; category?: string; tag?: string }>;
 }
 
 export async function generateMetadata({
   searchParams,
 }: PageProps): Promise<Metadata> {
-  const { q: query } = await searchParams;
+  const { q: query, category, tag } = await searchParams;
 
-  if (query) {
+  if (query || category || tag) {
+    const searchTerms = [query, category, tag].filter(Boolean).join(" ");
     return {
-      title: `Recherche: "${query}" - Formations | Learni`,
-      description: `Découvrez nos formations correspondant à votre recherche "${query}". Trouvez la formation idéale pour développer vos compétences.`,
+      title: `Recherche: "${searchTerms}" - Formations | Learni`,
+      description: `Découvrez nos formations correspondant à votre recherche "${searchTerms}". Trouvez la formation idéale pour développer vos compétences.`,
       keywords: [
-        `formation ${query}`,
-        `formation professionnelle ${query}`,
-        `apprentissage ${query}`,
+        `formation ${searchTerms}`,
+        `formation professionnelle ${searchTerms}`,
+        `apprentissage ${searchTerms}`,
       ],
       openGraph: {
-        title: `Recherche: "${query}" - Formations | Learni`,
-        description: `Découvrez nos formations correspondant à votre recherche "${query}". Trouvez la formation idéale pour développer vos compétences.`,
+        title: `Recherche: "${searchTerms}" - Formations | Learni`,
+        description: `Découvrez nos formations correspondant à votre recherche "${searchTerms}". Trouvez la formation idéale pour développer vos compétences.`,
         type: "website",
       },
     };
@@ -47,20 +48,25 @@ export async function generateMetadata({
 }
 
 export default async function Page({ searchParams }: PageProps) {
-  const { q: query } = await searchParams;
+  const { q: query, category, tag } = await searchParams;
 
   // Données structurées JSON-LD pour le SEO
+  const searchTerms = [query, category, tag].filter(Boolean).join(" ");
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: query
-      ? `Recherche: "${query}" - Formations`
+    name: searchTerms
+      ? `Recherche: "${searchTerms}" - Formations`
       : "Recherche de formations",
-    description: query
-      ? `Découvrez nos formations correspondant à votre recherche "${query}". Trouvez la formation idéale pour développer vos compétences.`
+    description: searchTerms
+      ? `Découvrez nos formations correspondant à votre recherche "${searchTerms}". Trouvez la formation idéale pour développer vos compétences.`
       : "Recherchez parmi nos formations professionnelles. Trouvez la formation idéale pour développer vos compétences et faire évoluer votre carrière.",
-    url: query
-      ? `https://learni.fr/formations/recherche?q=${encodeURIComponent(query)}`
+    url: searchTerms
+      ? `https://learni.fr/formations/recherche?${new URLSearchParams({
+          q: query || "",
+          category: category || "",
+          tag: tag || "",
+        }).toString()}`
       : "https://learni.fr/formations/recherche",
     mainEntity: {
       "@type": "ItemList",

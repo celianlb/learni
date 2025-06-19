@@ -11,13 +11,13 @@ import { searchFormations } from "@/queries/searchFormations";
 import { FormationWithRelations } from "@/types/formation";
 
 interface SearchResultsContentProps {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; category?: string; tag?: string }>;
 }
 
 export default async function SearchResultsContent({
   searchParams,
 }: SearchResultsContentProps) {
-  const { q: query } = await searchParams;
+  const { q: query, category, tag } = await searchParams;
 
   // Récupération des données côté serveur en parallèle avec gestion d'erreur
   let results: FormationWithRelations[] = [];
@@ -41,6 +41,16 @@ export default async function SearchResultsContent({
     // En cas d'erreur, on utilise des valeurs par défaut
   }
 
+  // Filtrer les résultats si category ou tag sont spécifiés
+  if (category || tag) {
+    results = results.filter((formation) => {
+      const matchesCategory =
+        !category || formation.category?.slug === category;
+      const matchesTag = !tag || formation.tags.some((t) => t.name === tag);
+      return matchesCategory && matchesTag;
+    });
+  }
+
   return (
     <div className="container mx-auto px-4 py-48">
       <SearchForm initialQuery={query || ""} />
@@ -55,6 +65,8 @@ export default async function SearchResultsContent({
               initialLevels={filterData.levels}
               initialDurations={filterData.durations}
               initialFormats={filterData.formats}
+              initialSelectedCategory={category}
+              initialSelectedTag={tag}
             />
           </div>
         </div>
